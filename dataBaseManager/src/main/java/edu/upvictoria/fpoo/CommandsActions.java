@@ -7,7 +7,7 @@ public class CommandsActions {
     public static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
     public static void showTables() {
-        System.out.println("================LIST OF TABLES================");
+        System.out.println("===============LIST OF TABLES===============");
         File directory = new File(path);
         File[] files = directory.listFiles();
 

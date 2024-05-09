@@ -17,7 +17,7 @@ public class Commands {
          if (!command.startsWith("SHOW TABLES")) {
             }
             CommandsActions.showTables();
-        } else if (command.startsWith("Exit")) {
+        } else if (command.startsWith("exit")) {
             System.exit(0);
         }
     }
