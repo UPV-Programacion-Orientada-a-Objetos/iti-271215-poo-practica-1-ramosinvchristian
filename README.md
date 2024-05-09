@@ -9,8 +9,8 @@ Se necesita un sistema en Java que sea capaz de interpretar las sentencias `CREA
 A continuación se describirán cada una de las sentencias.
 
 
-  1. Se deberá establecer una ruta de trabajo, el cual será el directorio desde donde se leerán y/o crearán los archivos. El nombre de la carpeta corresponderá al nombre de la base de datos. Lo anterior mediante el comando `USE $PATH$` donde *$PATH$* será la ruta relativa o obsoluta de la carpeta de trabajo.
-  2. Una vez establecida la ruta de trabajo, se deberá poder mostrar el listado de las *Tablas* (archivos CSV en la ruta de trabajo) mediante el comando `SHOW TABLES`.
+  1. [Terminado] Se deberá establecer una ruta de trabajo, el cual será el directorio desde donde se leerán y/o crearán los archivos. El nombre de la carpeta corresponderá al nombre de la base de datos. Lo anterior mediante el comando `USE $PATH$` donde *$PATH$* será la ruta relativa o obsoluta de la carpeta de trabajo.
+  2. [Terminado] Una vez establecida la ruta de trabajo, se deberá poder mostrar el listado de las *Tablas* (archivos CSV en la ruta de trabajo) mediante el comando `SHOW TABLES`.
   3. El comando `CREATE TABLE` deberá ser capáz de crear un nuevo archivo, respetando la sintaxis de SQL para la creación de los campos. Por ejemplo:
   >```sql
   > CREATE TABLE Alumnos (

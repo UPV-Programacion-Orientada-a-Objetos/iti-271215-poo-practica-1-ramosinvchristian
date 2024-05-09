@@ -1,10 +1,8 @@
 package edu.upvictoria.fpoo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 /**
-Establecer un directorio $PATH$ desde donde se leerán y/o crearán los archivos. Lo anterior mediante el comando USE $PATH$.
+ 1. Set a $PATH$ directory from which files will be read and/or created. This is done with the USE $PATH$ command
+ 2. Display the list of Tables (CSV files in $PATH$) using the SHOW TABLES command.
 */
 
 
