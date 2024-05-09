@@ -11,7 +11,7 @@ A continuación se describirán cada una de las sentencias.
 
   1. [Terminado] Se deberá establecer una ruta de trabajo, el cual será el directorio desde donde se leerán y/o crearán los archivos. El nombre de la carpeta corresponderá al nombre de la base de datos. Lo anterior mediante el comando `USE $PATH$` donde *$PATH$* será la ruta relativa o obsoluta de la carpeta de trabajo.
   2. [Terminado] Una vez establecida la ruta de trabajo, se deberá poder mostrar el listado de las *Tablas* (archivos CSV en la ruta de trabajo) mediante el comando `SHOW TABLES`.
-  3. El comando `CREATE TABLE` deberá ser capáz de crear un nuevo archivo, respetando la sintaxis de SQL para la creación de los campos. Por ejemplo:
+  3. [Terminado] El comando `CREATE TABLE` deberá ser capáz de crear un nuevo archivo, respetando la sintaxis de SQL para la creación de los campos. Por ejemplo:
   >```sql
   > CREATE TABLE Alumnos (
   >   id INT NOT NULL PRIMARY KEY,
@@ -24,7 +24,7 @@ A continuación se describirán cada una de las sentencias.
   dará como resultado el archivo `$PATH$/Alumnos.csv` con las columnas:
   > `id,nombre,app,apm,edad`.
 
-  4. El comando `DROP TABLE` deberá ser capáz de eliminar el archivo de la carpeta. **Se deberá preguntar si realmente quiere borrar el archivo**.
+  4. [Comenzado] El comando `DROP TABLE` deberá ser capáz de eliminar el archivo de la carpeta. **Se deberá preguntar si realmente quiere borrar el archivo**.
   5. El comando `INSERT` deberá ser capáz de insertar una nueva línea en el archivo/tabla. Se deberá respetar la sintaxis de SQL. Por ejemplo: `INSERT INTO table_name (column1, column2,column3, ...) VALUES (value1, value2, value3, ...);`.
   6. El comando `DELETE` deberá ser capáz de borrar una fila o un conjunto de filas respetando la sección `WHERE` de la sintaxis de SQL (`DELETE FROM table_name WHERE condition;`). 
   > **NOTA:**

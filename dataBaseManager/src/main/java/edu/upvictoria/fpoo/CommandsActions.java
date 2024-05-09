@@ -22,9 +22,9 @@ public class CommandsActions {
             e.getMessage();
         }
     }
-
     public static void showTables() {
         System.out.println("===============LIST OF TABLES===============");
+
         File directorio = new File(path);
         File[] archivos = directorio.listFiles();
 
