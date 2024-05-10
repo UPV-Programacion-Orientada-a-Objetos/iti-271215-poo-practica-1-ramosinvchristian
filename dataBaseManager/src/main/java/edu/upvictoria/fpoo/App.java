@@ -23,11 +23,11 @@ package edu.upvictoria.fpoo;
  > Respecting the complejes search using the commands `AND` Y `OR`. For example:
  `DELETE FROM Alumnos WHERE (app='González' AND apm <> 'Hernández') OR id=25;`; Sólo borraría a los alumnos con apellidos *González Hernández* o aquél con *id=25*.
 
- 7. UPDATE will update the columns of the row or a set od row. Respecting the SQL syntaxis. For example:
+ 7. [terminado] UPDATE will update the columns of the row or a set od row. Respecting the SQL syntaxis. For example:
  `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;`.
  **NOTA: la sección de `WHERE condition` respeta el mismo formato del comando `DELETE`.
 
- 8. SELECT will get set of dates from the table/file respecting the SQL syntaxis. For example:
+ 8. [Comenzado] SELECT will get set of dates from the table/file respecting the SQL syntaxis. For example:
  `SELECT [*] | select_expr [, select_expr] ... [as alias] [FROM  table_reference [WHERE where_condition]`.
 
  ## Entregables.

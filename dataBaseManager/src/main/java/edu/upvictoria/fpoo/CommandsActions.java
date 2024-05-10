@@ -27,7 +27,7 @@ public class CommandsActions {
                 System.out.println(archivo.getName());
             }
         } else {
-            System.out.println("No hay tablas que mostrar.");
+            System.out.println("NO HAY TABLA PARA MOSTRAR");
         }
     }
     public static void dropTable(String nombreTabla) {
@@ -35,10 +35,10 @@ public class CommandsActions {
         File file = new File(filePath);
         try {
             if (!file.exists()) {
-                throw new FileDoesntExist("El archivo " + nombreTabla + " no existe");
+                throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
             }
-            System.out.println("$PATH$: ¿ESTÁ SEGURO QUE DESEA ELIMINAR LA TABLA?");
-            System.out.println("$PATH$: INGRESE [0] PARA CONFIRMAR");
+            System.out.println("$PATH$: ¿REALMENTE QUIERE ELIMINAR LA TABLA?");
+            System.out.println("$PATH$: 0 = CONFIRMAR");
             String op = bf.readLine();
             if (op.equals("0")) {
                 if (file.delete()) {
@@ -57,7 +57,7 @@ public class CommandsActions {
         String filePath = path + "/" + tableName + ".csv";
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new FileDoesntExist("El archivo " + tableName + " no existe");
+            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + tableName + " NO EXISTE");
         }
         try (FileWriter writer = new FileWriter(filePath, true)) {
                         for (String valorCampo : valores) {
@@ -73,7 +73,7 @@ public class CommandsActions {
         String filePath = path + "/" + nombreTabla + ".csv";
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new FileDoesntExist("El archivo " + nombreTabla + " no existe");
+            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String headerLine = reader.readLine();
@@ -98,7 +98,7 @@ public class CommandsActions {
                 writer.write(resultad0.toString());
             }
             if (!realizado) {
-                System.out.println("NO EXISTE UN REGISTRO QUE CUMPLA CON LA CONDICIÓN");
+                System.out.println("NO EXISTE UN REGISTRO QUE CUMPLA CON LA RESPECTIVA CONDICIÓN");
             } else {
                 System.out.println("DATOS ELIMINADOS CORRECTAMENTE - ["+nombreTabla+"]");
             }
@@ -111,7 +111,7 @@ public class CommandsActions {
         for (String condicion : condiciones) {
             String[] partesCondicion = condicion.split("=");
             if (partesCondicion.length != 2) {
-                System.out.println("Error en la condición: " + condicion);
+                System.out.println("ERROR EN LA CONDICIÓN " + condicion);
                 return false;
             }
             String campo = partesCondicion[0].trim();
@@ -124,7 +124,7 @@ public class CommandsActions {
                 }
             }
             if (indiceHeader == -1) {
-                System.out.println("Campo " + campo + " no encontrado.");
+                System.out.println("LAMENTABLEMENTE EL CAMPO " + campo + " NO SE HA ENCONTRADO");
                 return false;
             }
             if (valores[indiceHeader].trim().equals(valor)) {
@@ -133,4 +133,53 @@ public class CommandsActions {
         }
         return false;
     }
+    public static void updateTable(String nombreTabla, String clausula, String condicion) throws FileDoesntExist {
+        String filePath = path + "/" + nombreTabla + ".csv";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String headerLine = reader.readLine();
+            String[] headers = headerLine.split(",");
+            String[] sets = clausula.split(",");
+            String[] asignarColumnas = new String[sets.length];
+            String[] asignarValores = new String[sets.length];
+            for (int i = 0; i < sets.length; i++) {
+                String[] asignarPar = sets[i].split("=");
+                asignarColumnas[i] = asignarPar[0].trim();
+                asignarValores[i] = asignarPar[1].trim().replace("'", "");
+            }
+            StringBuilder result = new StringBuilder();
+            result.append(headerLine).append("\n");
+            boolean actualizado = false;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] valores = line.split(",");
+                if (validarCondicion(valores, headers, condicion)) {
+                    for (int i = 0; i < headers.length; i++) {
+                        for (int j = 0; j < asignarColumnas.length; j++) {
+                            if (headers[i].trim().equals(asignarColumnas[j])) {
+                                valores[i] = asignarValores[j];
+                                actualizado = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                result.append(String.join(",", valores)).append("\n");
+            }
+            try (FileWriter writer = new FileWriter(filePath)) {
+                writer.write(result.toString());
+            }
+            if (actualizado) {
+                System.out.println("REGISTRO ACTUALIZADO EN " + nombreTabla + " ");
+            } else {
+                System.out.println("NO SE ENCONTRARON REGISTROS QUE REALIZEN EL CUMPLIMIENTO DE LA CONDICIÓN");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

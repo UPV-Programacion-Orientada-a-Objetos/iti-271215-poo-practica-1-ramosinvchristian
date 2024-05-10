@@ -11,7 +11,7 @@ public class Commands {
 
     public static void menu(BufferedReader lector) throws IOException {
 
-        System.out.println("Ingrese un comando");
+        System.out.println("INGRESE UN COMANDO");
         System.out.print("$PATH$:");
         String comando = obtenerComando(lector);
 
@@ -48,7 +48,12 @@ public class Commands {
                 condition = comando.substring(comando.indexOf("WHERE") + 5).trim();
             }
         CommandsActions.deleteFrom(tableName, condition);
-    } else if (comando.startsWith("exit")) {
+        } else if (comando.startsWith("UPDATE")) {
+            if (!comando.startsWith("UPDATE ")) {
+                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+            }
+            updateDatos(comando);
+        } else if (comando.startsWith("EXIT")) {
         System.exit(0);
     }
 }
@@ -66,14 +71,14 @@ public class Commands {
     public static void crearTabla(String comando) {
         String[] palabras = comando.split(" ");
         String tableName = palabras[2];
-        System.out.println("Nombre de la tabla: " + tableName);
+        System.out.println("TABLA " + tableName);
         String dentro = comando.substring(comando.indexOf("(") + 1, comando.lastIndexOf(")")).trim();
         String[] campos = dentro.split(",");
         File archivo = new File(path + "/" + tableName + ".csv");
         if (!archivo.exists()) {
             CommandsActions.createTable(tableName, campos);
         } else {
-            System.out.println("El archivo o tabla " + tableName + ", ya existe.");
+            System.out.println("EL ARCHIVO O LA TABLA " + tableName + " YA EXISTE");
         }
     }
     public static void insertDatos(String comando) {
@@ -92,6 +97,16 @@ public class Commands {
                 valoresColumnas.add(dato.trim());
             }
             CommandsActions.insertInto(nombreTabla, valoresColumnas);
+        } catch (FileDoesntExist e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void updateDatos(String comando) throws FileDoesntExist {
+        try {
+            String tableName = comando.substring(7, comando.indexOf("SET")).trim();
+            String setClause = comando.substring(comando.indexOf("SET") + 3, comando.indexOf("WHERE")).trim();
+            String condition = comando.substring(comando.indexOf("WHERE") + 5).trim();
+            CommandsActions.updateTable(tableName, setClause, condition);
         } catch (FileDoesntExist e) {
             System.out.println(e.getMessage());
         }
