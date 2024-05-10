@@ -24,13 +24,13 @@ A continuación se describirán cada una de las sentencias.
   dará como resultado el archivo `$PATH$/Alumnos.csv` con las columnas:
   > `id,nombre,app,apm,edad`.
 
-  4. [Comenzado] El comando `DROP TABLE` deberá ser capáz de eliminar el archivo de la carpeta. **Se deberá preguntar si realmente quiere borrar el archivo**.
-  5. El comando `INSERT` deberá ser capáz de insertar una nueva línea en el archivo/tabla. Se deberá respetar la sintaxis de SQL. Por ejemplo: `INSERT INTO table_name (column1, column2,column3, ...) VALUES (value1, value2, value3, ...);`.
-  6. El comando `DELETE` deberá ser capáz de borrar una fila o un conjunto de filas respetando la sección `WHERE` de la sintaxis de SQL (`DELETE FROM table_name WHERE condition;`). 
+  4. [Termiando] El comando `DROP TABLE` deberá ser capáz de eliminar el archivo de la carpeta. **Se deberá preguntar si realmente quiere borrar el archivo**.
+  5. [Termiando] El comando `INSERT` deberá ser capáz de insertar una nueva línea en el archivo/tabla. Se deberá respetar la sintaxis de SQL. Por ejemplo: `INSERT INTO table_name (column1, column2,column3, ...) VALUES (value1, value2, value3, ...);`.
+  6. [Termiando] El comando `DELETE` deberá ser capáz de borrar una fila o un conjunto de filas respetando la sección `WHERE` de la sintaxis de SQL (`DELETE FROM table_name WHERE condition;`). 
   > **NOTA:**
   > Se deberá respetar las búsquedas complejas utilizando los comandos `AND` Y `OR`. Por ejemplo: `DELETE FROM Alumnos WHERE (app='González' AND apm <> 'Hernández') OR id=25;`; Sólo borraría a los alumnos con apellidos *González Hernández* o aquél con *id=25*. 
 
-  7. El comando `UPDATE` actualizará las columnas de una fila o un conjunto de filas. Se deberá respetar la sintaxis de SQL. `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;`. **NOTA: la sección de `WHERE condition` respeta el mismo formato del comando `DELETE`.
+  7. [Comenzado] El comando `UPDATE` actualizará las columnas de una fila o un conjunto de filas. Se deberá respetar la sintaxis de SQL. `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;`. **NOTA: la sección de `WHERE condition` respeta el mismo formato del comando `DELETE`.
   8. El comando `SELECT` obtendrá el conjunto de datos desde la tabla/archivo respetando la sintaxys de SQL `SELECT [*] | select_expr [, select_expr] ... [as alias] [FROM  table_reference [WHERE where_condition]`.
 
 

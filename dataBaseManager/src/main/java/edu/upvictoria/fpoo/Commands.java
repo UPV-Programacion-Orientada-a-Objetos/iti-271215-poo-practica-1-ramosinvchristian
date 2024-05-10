@@ -3,7 +3,6 @@ package edu.upvictoria.fpoo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Commands {
@@ -38,8 +37,21 @@ public class Commands {
                 throw new ErrorSintaxis("ERROR DE SINTAXIS");
             }
             insertDatos(comando);
-        }
+        } else if (comando.startsWith("DELETE FROM")) {
+            String[] partes = comando.split(" ");
+            if (partes.length < 3 || !partes[1].equalsIgnoreCase("FROM")) {
+                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+            }
+            String tableName = partes[2].trim();
+            String condition = null;
+            if (comando.contains("WHERE")) {
+                condition = comando.substring(comando.indexOf("WHERE") + 5).trim();
+            }
+        CommandsActions.deleteFrom(tableName, condition);
+    } else if (comando.startsWith("exit")) {
+        System.exit(0);
     }
+}
     public static String obtenerComando(BufferedReader lector) throws IOException {
         StringBuilder sb = new StringBuilder();
         String line;

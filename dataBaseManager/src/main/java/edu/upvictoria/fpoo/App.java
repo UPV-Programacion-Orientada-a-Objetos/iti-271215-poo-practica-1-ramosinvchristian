@@ -18,7 +18,7 @@ package edu.upvictoria.fpoo;
  5. [terminado] INSERT should insert a new line in the file/table. respecting the SQL syntax. For example:
  INSERT INTO table_name (column1, column2,column3, ...) VALUES (value1, value2, value3, ...);`.
 
- 6. DELETE should delete a row or a set of row the section WHERE respecting the SQL syntaxis (`DELETE FROM table_name WHERE condition;`)
+ 6. [terminado] DELETE should delete a row or a set of row the section WHERE respecting the SQL syntaxis (`DELETE FROM table_name WHERE condition;`)
  > **NOTA:**
  > Respecting the complejes search using the commands `AND` Y `OR`. For example:
  `DELETE FROM Alumnos WHERE (app='González' AND apm <> 'Hernández') OR id=25;`; Sólo borraría a los alumnos con apellidos *González Hernández* o aquél con *id=25*.
