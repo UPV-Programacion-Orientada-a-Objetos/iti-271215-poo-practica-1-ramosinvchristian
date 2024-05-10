@@ -4,7 +4,7 @@ package edu.upvictoria.fpoo;
  1. [terminado] Set a $PATH$ directory from which files will be read and/or created. This is done with the USE $PATH$ command.
  2. [terminado] Display the list of Tables (CSV files in $PATH$) using the SHOW TABLES command.
  3. [terminado] CREATE TABLE must create a new file, respecting the SQL syntax for creating the fields. For example:
-  CREATE TABLE Alumnos (
+  CREATE TABLE Perro (
     id INT NOT NULL PRIMARY KEY,
      nombre VARCHAR(20) NOT NULL,
      app VARCHAR(20) NOT NULL,
@@ -21,7 +21,7 @@ package edu.upvictoria.fpoo;
  6. [terminado] DELETE should delete a row or a set of row the section WHERE respecting the SQL syntaxis (`DELETE FROM table_name WHERE condition;`)
  > **NOTA:**
  > Respecting the complejes search using the commands `AND` Y `OR`. For example:
- `DELETE FROM Alumnos WHERE (app='González' AND apm <> 'Hernández') OR id=25;`; Sólo borraría a los alumnos con apellidos *González Hernández* o aquél con *id=25*.
+ `DELETE FROM Alumnos WHERE (app='González' AND apm <> 'Hernández') OR id=25;`; only delete the students with lastname *González Hernández* o aquél con *id=25*.
 
  7. [terminado] UPDATE will update the columns of the row or a set od row. Respecting the SQL syntaxis. For example:
  `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;`.
@@ -52,29 +52,29 @@ import java.io.InputStreamReader;
 
 public class App {
     public static void main( String[] args ) throws IOException {
-        System.out.println( "Hello World!!!" );
+        System.out.println( "Hello World!" );
 
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         String op;
         String use;
         boolean continuar = true;
-        System.out.println("exit = salir.");
+        System.out.println("exit; = SALIR (En $PATH$)");
         do {
-            System.out.print("BASE DE DATOS:");
+            System.out.print("WRITE THE NAME DATA BASE (USE $PATH$): ");
             use = String.valueOf(lector.readLine());
             if (!use.startsWith("USE $PATH$")) {
-                System.out.println("INVALIDO");
+                System.out.println("INVÁLIDO");
             }
         } while ((!use.startsWith("USE $PATH$")));
         do {
             try {
                 Commands.menu(lector);
                 op = lector.readLine();
-                if (op.equalsIgnoreCase("exit")){
+                if (op.equalsIgnoreCase("exit;")){
                     continuar = false;
                 }
             } catch (Exception e) {
-                System.out.println("Ocurrió un error: " + e.getMessage());
+                System.out.println("AN ERROR OCURRED: " + e.getMessage());
             }
         } while (continuar);
     }

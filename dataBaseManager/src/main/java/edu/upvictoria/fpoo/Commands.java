@@ -11,13 +11,13 @@ public class Commands {
 
     public static void menu(BufferedReader lector) throws IOException {
 
-        System.out.println("INGRESE UN COMANDO");
+        System.out.println("ENTER A COMANDO");
         System.out.print("$PATH$:");
         String comando = obtenerComando(lector);
 
         if (comando.startsWith("DROP TABLE")) {
             if (!comando.startsWith("DROP TABLE")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
             String tableName = comando.substring(11).trim();
             String nombre = tableName.substring(0, tableName.length());
@@ -25,38 +25,38 @@ public class Commands {
         } else if (comando.startsWith("CREATE TABLE")) {
             crearTabla(comando);
             if (!comando.startsWith("CREATE TABLE")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
         } else if (comando.startsWith("SHOW TABLES")) {
             if (!comando.startsWith("SHOW TABLES")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
             CommandsActions.showTables();
         } else if (comando.startsWith("INSERT")) {
             if (!comando.startsWith("INSERT INTO")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
             insertDatos(comando);
         } else if (comando.startsWith("DELETE FROM")) {
             String[] partes = comando.split(" ");
             if (partes.length < 3 || !partes[1].equalsIgnoreCase("FROM")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
             String tableName = partes[2].trim();
             String condition = null;
             if (comando.contains("WHERE")) {
                 condition = comando.substring(comando.indexOf("WHERE") + 5).trim();
             }
-        CommandsActions.deleteFrom(tableName, condition);
+            CommandsActions.deleteFrom(tableName, condition);
         } else if (comando.startsWith("UPDATE")) {
             if (!comando.startsWith("UPDATE ")) {
-                throw new ErrorSintaxis("ERROR DE SINTAXIS");
+                throw new ErrorSintaxis("SINTAX ERROR");
             }
             updateDatos(comando);
-        } else if (comando.startsWith("EXIT")) {
-        System.exit(0);
+        } else if (comando.startsWith("exit")) {
+            System.exit(0);
+        }
     }
-}
     public static String obtenerComando(BufferedReader lector) throws IOException {
         StringBuilder sb = new StringBuilder();
         String line;
@@ -71,14 +71,14 @@ public class Commands {
     public static void crearTabla(String comando) {
         String[] palabras = comando.split(" ");
         String tableName = palabras[2];
-        System.out.println("TABLA " + tableName);
+        System.out.println("TABLE: " + tableName);
         String dentro = comando.substring(comando.indexOf("(") + 1, comando.lastIndexOf(")")).trim();
         String[] campos = dentro.split(",");
         File archivo = new File(path + "/" + tableName + ".csv");
         if (!archivo.exists()) {
             CommandsActions.createTable(tableName, campos);
         } else {
-            System.out.println("EL ARCHIVO O LA TABLA " + tableName + " YA EXISTE");
+            System.out.println("THE FILE OR TABLE " + tableName + " IT'S ALREADY EXIST");
         }
     }
     public static void insertDatos(String comando) {
@@ -107,6 +107,28 @@ public class Commands {
             String setClause = comando.substring(comando.indexOf("SET") + 3, comando.indexOf("WHERE")).trim();
             String condition = comando.substring(comando.indexOf("WHERE") + 5).trim();
             CommandsActions.updateTable(tableName, setClause, condition);
+        } catch (FileDoesntExist e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void selectDatos(String comando) throws FileDoesntExist {
+        try {
+            String[] partes = comando.split("FROM");
+            if (partes.length == 2) {
+                String selectClausula = partes[0].substring(7).trim();
+                String[] subPartes = partes[1].trim().split("WHERE");
+                String tabla = subPartes[0].trim();
+                String condition = (subPartes.length == 2) ? subPartes[1].trim() : null;
+                String[] columnas = selectClausula.equals("*") ? new String[]{"*"} : selectClausula.split(",");
+                CommandsActions.selectFrom(tabla, columnas, condition);
+            } else if (partes.length == 1) {
+                String selectClausula = partes[0].substring(7).trim();
+                String tabla = selectClausula.trim();
+                String[] columnas = selectClausula.equals("*") ? new String[]{"*"} : selectClausula.split(",");
+                CommandsActions.selectFrom(tabla, columnas, null);
+            } else {
+                throw new ErrorSintaxis("SINTAX ERROR");
+            }
         } catch (FileDoesntExist e) {
             System.out.println(e.getMessage());
         }

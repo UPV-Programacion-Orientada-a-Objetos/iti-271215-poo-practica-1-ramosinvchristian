@@ -18,6 +18,7 @@ public class CommandsActions {
             e.getMessage();
         }
     }
+
     public static void showTables() {
         System.out.println("===============LIST OF TABLES===============");
         File directorio = new File(path);
@@ -27,22 +28,23 @@ public class CommandsActions {
                 System.out.println(archivo.getName());
             }
         } else {
-            System.out.println("NO HAY TABLA PARA MOSTRAR");
+            System.out.println("NO TABLE TO SHOW");
         }
     }
+
     public static void dropTable(String nombreTabla) {
         String filePath = path + "/" + nombreTabla + ".csv";
         File file = new File(filePath);
         try {
             if (!file.exists()) {
-                throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
+                throw new FileDoesntExist("SORRY, THE FILE " + nombreTabla + " DOES NOT EXIST");
             }
-            System.out.println("$PATH$: ¿REALMENTE QUIERE ELIMINAR LA TABLA?");
-            System.out.println("$PATH$: 0 = CONFIRMAR");
+            System.out.println("$PATH$: ¿DO YOU WANT TO DELETE THE TABLE?");
+            System.out.println("$PATH$: 0 = CONFIRM");
             String op = bf.readLine();
             if (op.equals("0")) {
                 if (file.delete()) {
-                    System.out.println("$PATH$: LA TABLA " + nombreTabla + " SE HA ELIMINADO CORRECTAMENTE");
+                    System.out.println("$PATH$: THE TABLE " + nombreTabla + " SE HA ELIMINADO CORRECTAMENTE");
                 } else {
                     System.out.println("ERROR");
                 }
@@ -53,27 +55,29 @@ public class CommandsActions {
             throw new RuntimeException(e);
         }
     }
+
     public static void insertInto(String tableName, ArrayList<String> valores) throws FileDoesntExist {
         String filePath = path + "/" + tableName + ".csv";
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + tableName + " NO EXISTE");
+            throw new FileDoesntExist("SORRY, THE FILE " + tableName + " DOES NOT EXIST");
         }
         try (FileWriter writer = new FileWriter(filePath, true)) {
-                        for (String valorCampo : valores) {
+            for (String valorCampo : valores) {
                 writer.write(valorCampo + ",");
             }
             writer.write("\n");
-            System.out.println("LOS DATOS SE HAN INSERTADO CORRECTAMENTE");
+            System.out.println("THE DATA HAS BEEN INSERTED CORRECTLY");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static void deleteFrom(String nombreTabla, String condicion) throws FileDoesntExist {
         String filePath = path + "/" + nombreTabla + ".csv";
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
+            throw new FileDoesntExist("SORRY, THE FILE " + nombreTabla + " DOES NOT EXIST");
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String headerLine = reader.readLine();
@@ -98,20 +102,21 @@ public class CommandsActions {
                 writer.write(resultad0.toString());
             }
             if (!realizado) {
-                System.out.println("NO EXISTE UN REGISTRO QUE CUMPLA CON LA RESPECTIVA CONDICIÓN");
+                System.out.println("THERE IS NO RECORD THAT MEETS THE RESPECTIVE CONDITION");
             } else {
-                System.out.println("DATOS ELIMINADOS CORRECTAMENTE - ["+nombreTabla+"]");
+                System.out.println("DATA CORRECTLY DELETED " + nombreTabla + " ");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private static boolean validarCondicion(String[] valores, String[] headers, String condition) {
         String[] condiciones = condition.split("\\s+(?i)OR\\s+");
         for (String condicion : condiciones) {
             String[] partesCondicion = condicion.split("=");
             if (partesCondicion.length != 2) {
-                System.out.println("ERROR EN LA CONDICIÓN " + condicion);
+                System.out.println("ERROR IN THE CONDITION " + condicion);
                 return false;
             }
             String campo = partesCondicion[0].trim();
@@ -124,7 +129,7 @@ public class CommandsActions {
                 }
             }
             if (indiceHeader == -1) {
-                System.out.println("LAMENTABLEMENTE EL CAMPO " + campo + " NO SE HA ENCONTRADO");
+                System.out.println("SORRY, THE SECTOR (FIELD) " + campo + " DOES NOT EXIST");
                 return false;
             }
             if (valores[indiceHeader].trim().equals(valor)) {
@@ -133,11 +138,12 @@ public class CommandsActions {
         }
         return false;
     }
+
     public static void updateTable(String nombreTabla, String clausula, String condicion) throws FileDoesntExist {
         String filePath = path + "/" + nombreTabla + ".csv";
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new FileDoesntExist("LAMENTABLEMENTE EL ARCHIVO " + nombreTabla + " NO EXISTE");
+            throw new FileDoesntExist("SORRY, THE FILE " + nombreTabla + " DOOES NOT EXIST");
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String headerLine = reader.readLine();
@@ -173,13 +179,60 @@ public class CommandsActions {
                 writer.write(result.toString());
             }
             if (actualizado) {
-                System.out.println("REGISTRO ACTUALIZADO EN " + nombreTabla + " ");
+                System.out.println("UPDATED REGISTRATION IN " + nombreTabla + " ");
             } else {
-                System.out.println("NO SE ENCONTRARON REGISTROS QUE REALIZEN EL CUMPLIMIENTO DE LA CONDICIÓN");
+                System.out.println("NO RECORDS WERE FOUND THAT MADE THE CONDITION FULFILLED");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public static void selectFrom(String nombreTabla, String[] columns, String condicion) throws FileDoesntExist {
+        String filePath = path + "/" + nombreTabla + ".csv";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileDoesntExist("SORRY, THE FILE " + nombreTabla + " DOES NOT EXIST");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String headerLine = reader.readLine();
+            String[] headers = headerLine.split(",");
+            ArrayList<Integer> columnas = new ArrayList<>();
+            if (columns[0].equals("*")) {
+                for (int i = 0; i < headers.length; i++) {
+                    columnas.add(i);
+                }
+            } else {
+                for (String column : columns) {
+                    boolean encontrado = false;
+                    for (int i = 0; i < headers.length; i++) {
+                        if (headers[i].trim().equals(column.trim())) {
+                            columnas.add(i);
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if (!encontrado) {
+                        System.out.println("SORRY, THE COLUMN " + column + " DOES NOT EXIST");
+                        return;
+                    }
+                }
+            }
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] valores = line.split(",");
+                if (condicion == null || validarCondicion(valores, headers, condicion)) {
+                    for (int index : columnas) {
+                        System.out.print(headers[index] + ": " + valores[index] + " ");
+                    }
+                    System.out.println();
+                }
+            }
+        } catch (FileDoesntExist e) {
+            System.out.println("SORRY, THE FILE " + filePath + " DOES NOT EXIST");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
