@@ -36,8 +36,8 @@ package edu.upvictoria.fpoo;
 
  1. Library in archive `JAR` auto-executable
  2. Source code, it will let in the repository
- 3. In the repository should programmer all the unitaries tests necesary por proof the function og the system
- 4. Should will realize a report ethat contain the explication of function of sistem, also the explication to detail de las pruebas unitarias realizadas.
+ 3. In the repository should programmer all the unities tests necessary por proof the function of the system
+ 4. Should will realize a report that contain the explication of function of system, also the explication to detail of the test realized
  **THE REPORT GIVE UP IN PDF FORMAT TO CLASSROOM*.
  */
 
